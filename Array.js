@@ -172,7 +172,9 @@ Array.prototype.index = function (spec) {
 };
 
 Array.prototype.pluck = function (property) {
-    return this.reduce(function (a, b) { a.push(b[property]); return a; }, []);
+    var buffer = [];
+    buffer = this.reduce(function (a, b) { a.push(b[property]); return a; }, buffer);
+    return buffer;
 };
 
 Array.prototype.sum = function (spec) {
@@ -236,12 +238,14 @@ Array.prototype.min = function (comparer) {
 };
 
 Array.prototype.flatten = function () {
-    return this.reduce(function (a, b) {
+    var buffer = [];
+    buffer = this.reduce(function (a, b) {
         if (is_array(b)) {
             b = b.flatten();
         }
         return a.concat(b);
-    }, []);
+    }, buffer);
+    return buffer;
 };
 
 Array.prototype.reduce = function (callback, opt_initialValue) {
