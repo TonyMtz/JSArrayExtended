@@ -1,6 +1,7 @@
 "use strict"; // Use strict
 
-var is_function = function (value) {
+var m, // uset to enumerate properties
+    is_function = function (value) {
         return typeof value === 'function';
     }, // Checks if the value is a function
 
@@ -388,7 +389,7 @@ var array_api = {
     }
 };
 
-for(var m in array_api){
+for(m in array_api){
     if ('function' !== typeof Array.prototype[m]) {
         Array.prototype[m] = array_api[m];
     }
