@@ -390,7 +390,7 @@ var array_api = {
 };
 
 for (m in array_api) {
-    if(array_api.hasOwnProperty(m)) {
+    if (array_api.hasOwnProperty(m)) {
         if (!is_function(Array.prototype[m])) {
             Array.prototype[m] = array_api[m];
         }
