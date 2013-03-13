@@ -1,193 +1,309 @@
-"use strict";
+"use strict"; // Use strict
 
 var is_function = function (value) {
         return typeof value === 'function';
-    },
+    }, // Checks if the value is a function
+
     is_array = function (value) {
         return Object.prototype.toString.apply(value) === '[object Array]';
-    },
-    functionK = function (k) {
-        return k;
-    };
+    }, // Checks if the value is an array
 
-Array.prototype.each = function (callback) {
-    callback = is_function(callback) ? callback : functionK;
-    this.reduce(
-        function (a, b, c) {
-            callback.call(this, b, c);
-        },
-        null
-    );
-};
+    functionK = function (value) {
+        return value;
+    }, // Default function wich returns the same value
 
-Array.prototype.where = function (spec) {
-    var buffer = [];
-    spec = is_function(spec) ? spec : functionK;
-    buffer = this.reduce(
-        function (a, b) {
-            if (spec.call(this, b)) {
-                a.push(b);
-            }
-            return a;
-        },
-        buffer
-    );
-    return buffer;
-};
+    substract = function (a, b) {
+        return a - b;
+    }, // Return the result of the substract
 
-Array.prototype.any = function (spec) {
-    var buffer,
-        i,
-        len;
-    if (is_function(spec)) {
-        buffer = this.where(spec);
-        if (buffer.length > 0) {
-            return true;
-        }
-    } else {
-        len = this.length;
-        for (i = 0; i < len; i += 1) {
-            if (this[i] === spec) {
-                return true;
-            }
-        }
-    }
-    return false;
-};
+    simpleCompare = function (a, b) {
+        return function (b) {
+            return a === b;
+        };
+    }; // Compare if the arguments are equals or not
 
-Array.prototype.select = function (spec) {
-    var buffer = [];
-    spec = is_function(spec) ? spec : functionK;
-    buffer = this.reduce(
-        function (a, b) {
-            a.push(spec.call(this, b));
-            return a;
-        },
-        buffer
-    );
-    return buffer;
-};
+var array_api = {    
 
-Array.prototype.take = function (howMany, spec) {
-    var i = 0,
-        value,
-        buffer = [];
-    if (is_function(spec)) {
-        value = this[i];
-        do {
-            if (spec.call(this, value)) {
-                buffer.push(value);
-            }
-            i += 1;
-            value = this[i];
-        } while (value && buffer.length < howMany);
-    } else {
-        buffer = this.slice(0, howMany);
-    }
-    return buffer;
-};
+    // Each method
+    // Iterates over the array elements and executes the callback function.
 
-Array.prototype.skip = function (howMany) {
-    var buffer = this.slice();
-    howMany = howMany || 0;
-    buffer.splice(0, howMany);
-    return buffer;
-};
+    each: function (callback) {
 
-Array.prototype.first = function (spec) {
-    var element;
-    element = (is_function(spec)) ?
-            this.take(1, spec)[0] :
-            element = this.take(1)[0];
-    return element || null;
-};
+        callback = is_function(callback) ? callback : functionK;
 
-Array.prototype.last = function (spec) {
-    var i = this.length - 1,
-        value = this[i];
-    if (is_function(spec)) {
-        do {
-            if (spec.call(this, value)) {
-                return value;
-            }
-            i -= 1;
-            value = this[i];
-        } while (value);
-    } else {
-        return value || null;
-    }
-    return null;
-};
-
-Array.prototype.count = function (spec) {
-    var sum = 0;
-    if (is_function(spec)) {
         this.reduce(
-            function (a, b) {
-                if (spec.call(this, b)) {
+            function (a, b, c) {
+                // a is the previous value, b is the current value, c is the current value index
+                callback.call(this, b, c);
+            },
+            null
+        );
+
+        return this;
+
+    },
+
+    // Where method
+    // Creates a new array that contains all the elements that satisfies the given specification. 
+
+    where: function (spec) {
+
+        var buffer = [];
+
+        spec = is_function(spec) ? spec : functionK;
+
+        this.reduce(
+            function (a, b, c) {
+                if (spec.call(this, b, c)) {
+                    a.push(b);
+                }
+                return a;
+            },
+            buffer
+        );
+
+        return buffer;
+
+    },
+
+    // Any method
+    // This method return a true value if any of the elements in the array satisfies the given spec
+
+    any: function (spec) {
+
+        var i,
+            len = this.length;
+
+        spec = is_function(spec) ? spec : simpleCompare(spec);
+
+        for (i = 0; i < len; i += 1) {
+
+            if (spec.call(this, this[i])) {
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    },
+
+    // Select method
+    // Creates a new collection containing the elements returned by the spec function
+
+    select: function (spec) {
+
+        var buffer = [];
+
+        spec = is_function(spec) ? spec : functionK;
+
+        this.reduce(
+            function (a, b, c) {
+                a.push(spec.call(this, b, c));
+                return a;
+            },
+            buffer
+        );
+
+        return buffer;
+    },
+
+    // Take method
+    // Returns a new array containing ideally howMany elements.
+
+    take: function (howMany, spec) {
+
+        var i,
+            len = this.length,
+            value,
+            buffer = [];
+
+        spec = is_function(spec) ? spec : functionK;
+
+        howMany = howMany || 0;
+
+        for (i = 0; i < len; i += 1) {
+
+            value = this[i];
+
+            if (spec.call(this, value, i)) {
+
+                buffer.push(value);
+
+                if (buffer.length >= howMany) {
+
+                    return buffer;
+
+                }
+
+            }
+
+        }
+
+    },
+
+    // Skip method
+    // Produces a new Array which will not include the first howMany elements.
+
+    skip: function (howMany) {
+
+        var buffer = this.slice();
+
+        howMany = howMany || 0;
+
+        buffer.splice(0, howMany);
+
+        return buffer;
+
+    },
+
+    // First method
+    // Will return the first element on collection that satisfies the specification, or the very first array’s element.
+
+    first: function (spec) {
+
+        var i,
+            value,
+            len = this.length;
+
+        spec = is_function(spec) ? spec : functionK;
+
+        for (i = 0; i < len; i += 1) {
+
+            value = this[i];
+
+            if (spec.call(this, value, i)) {
+
+                return value;
+
+            }
+
+        }
+
+        return null;
+
+    },
+
+    // Last method
+    // Will return the last element on collection that satisfies the specification, or the very last array’s element.
+
+    last: function (spec) {
+
+        var i = this.length - 1,
+            value;
+
+        spec = is_function(spec) ? spec : functionK;
+
+        for (i; i >= 0; i -= 1) {
+
+            value = this[i];
+
+            if (spec.call(this, value, i)) {
+
+                return value;
+
+            }
+
+        }
+
+        return null;
+
+    },
+
+    // Count method
+    // Will return the number of elements on the collection that satisfies the specification.
+
+    count: function (spec) {
+
+        var sum = 0;
+
+        if (!spec) {
+
+            return this.length;
+
+        }
+
+        spec = is_function(spec) ? spec : functionK;
+
+        this.reduce(
+            function (a, b, c) {
+                if (spec.call(this, b, c)) {
                     sum += 1;
                 }
             },
             null
         );
-    } else {
-        this.reduce(
-            function () {
-                sum += 1;
-            },
-            null
-        );
-    }
-    return sum;
-};
 
-Array.prototype.index = function (spec) {
-    var index;
-    index = (is_function(spec)) ?
-            this.reduce(
-                function (a, b, c) {
-                    var index;
-                    if (spec.call(this, b)) {
-                        index = c;
-                    } else {
-                        index = a;
-                    }
-                    return index;
-                },
-                null
-            ) :
-            this.reduce(
-                function (a, b, c) {
-                    var index;
-                    if (b === spec) {
-                        index = c;
-                    } else {
-                        index = a;
-                    }
-                    return index;
-                },
-                null
-            );
-    return index;
-};
+        return sum;
 
-Array.prototype.pluck = function (property) {
-    var buffer = [];
-    buffer = this.reduce(function (a, b) { a.push(b[property]); return a; }, buffer);
-    return buffer;
-};
+    },
 
-Array.prototype.sum = function (spec) {
-    var sum = 0;
-    sum = (is_function(spec)) ?
-            this.reduce(function (a, b) { return a + spec.call(this, b); }, sum) :
-            this.reduce(function (a, b) { return a + b; }, sum);
-    return sum;
-};
+    // Index method
+    // Will return the zero based position in the array of the element that satisfies the specification
 
-Array.prototype.max = function (comparer) {
-    var max;
-    if (is_function(comparer)) {
+    index: function (spec) {
+        var i,
+            len = this.length;
+
+        spec = is_function(spec) ? spec : simpleCompare(spec);
+
+        for (i = 0; i < len; i += 1) {
+
+            if (spec.call(this, this[i], i)) {
+
+                return i;
+
+            }
+
+        }
+
+        return -1;
+
+    },
+
+    // Pluck method
+    // This method will attempt to retrieve the given property of each element in the array and shall return a new array containing that property values
+
+    pluck: function (property) {
+
+        var buffer = [];
+
+        this.reduce(function (a, b) { a.push(b[property]); return a; }, buffer);
+
+        return buffer;
+
+    },
+
+    // Sum method
+    // Will return the summatory of the result of executing the spec function on each array’s element
+
+    sum: function (spec) {
+
+        var sum;
+
+        spec = is_function(spec) ? spec : functionK;
+
+        sum = this.reduce(function (a, b) { return a + spec.call(this, b); }, 0);
+
+        return sum;
+
+    },
+
+    // Max method
+    // This method will find and return the maximum value on the collection
+
+    max: function (comparer) {
+
+        var max;
+
+        comparer = is_function(comparer) ? comparer : substract;
+
+        if (this.length <= 0) {
+            return null;
+        }
+
         max = this.reduce(
             function (a, b) {
                 if (comparer.call(this, a, b) >= 0) {
@@ -196,24 +312,24 @@ Array.prototype.max = function (comparer) {
                 return b;
             }
         );
-    } else {
-        max = this.reduce(
-            function (a, b) {
-                if (a > b) {
-                    max = a;
-                    return max;
-                }
-                return b;
-            },
-            max
-        );
-    }
-    return max;
-};
 
-Array.prototype.min = function (comparer) {
-    var min;
-    if (is_function(comparer)) {
+        return max;
+
+    },
+
+    // Max method
+    // This method will find and return the maximum value on the collection
+
+    min: function (comparer) {
+
+        var min;
+
+        comparer = is_function(comparer) ? comparer : substract;
+
+        if (this.length <= 0) {
+            return null;
+        }
+
         min = this.reduce(
             function (a, b) {
                 if (comparer.call(this, a, b) <= 0) {
@@ -222,55 +338,58 @@ Array.prototype.min = function (comparer) {
                 return b;
             }
         );
-    } else {
-        min = this.reduce(
-            function (a, b) {
-                if (a > b) {
-                    min = a;
-                    return min;
-                }
-                return b;
-            },
-            min
-        );
-    }
-    return min;
-};
 
-Array.prototype.flatten = function () {
-    var buffer = [];
-    buffer = this.reduce(function (a, b) {
-        if (is_array(b)) {
-            b = b.flatten();
+        return min;
+
+    },
+
+    // Flatten method
+    // This method will return a new flat array
+
+    flatten: function () {
+
+        var buffer = [];
+
+        this.reduce(function (a, b) {
+            if (is_array(b)) {
+                b = b.flatten();
+            }
+            return a.concat(b);
+        }, buffer);
+
+        return buffer;
+    },
+
+    reduce: function (callback, opt_initialValue) {
+        if (null === this || 'undefined' === typeof this) {
+            throw new TypeError ('Array.prototype.reduce called on null or undefined');
         }
-        return a.concat(b);
-    }, buffer);
-    return buffer;
-};
-
-Array.prototype.reduce = function (callback, opt_initialValue) {
-    if (null === this || 'undefined' === typeof this) {
-        throw new TypeError ('Array.prototype.reduce called on null or undefined');
-    }
-    if ('function' !== typeof callback) {
-        throw new TypeError(callback + ' is not a function');
-    }
-    var index = 0, length = this.length >>> 0, value, isValueSet = false;
-    if (1 < arguments.length) {
-        value = opt_initialValue;
-        isValueSet = true;
-    }
-    for ( ; length > index; ++index) {
-        if (!this.hasOwnProperty(index)) continue;
-        if (isValueSet) {
-            value = callback(value, this[index], index, this);
-        } else {
-            value = this[index];
+        if ('function' !== typeof callback) {
+            throw new TypeError(callback + ' is not a function');
+        }
+        var index = 0, length = this.length >>> 0, value, isValueSet = false;
+        if (1 < arguments.length) {
+            value = opt_initialValue;
             isValueSet = true;
         }
+        for ( ; length > index; ++index) {
+            if (!this.hasOwnProperty(index)) continue;
+            if (isValueSet) {
+                value = callback(value, this[index], index, this);
+            } else {
+                value = this[index];
+                isValueSet = true;
+            }
+        }
+        if (!isValueSet) {
+            throw new TypeError('Reduce of empty array with no initial value');
+        }
+        return value;
     }
-    if (!isValueSet) {
-        throw new TypeError('Reduce of empty array with no initial value');
-    }
-    return value;
 };
+
+for(var m in array_api){
+    if ('function' !== typeof Array.prototype[m]) {
+        Array.prototype[m] = array_api[m];
+    }
+}
