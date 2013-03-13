@@ -1,6 +1,6 @@
 "use strict"; // Use strict
 
-var m, // uset to enumerate properties
+var m, // used to enumerate properties
     is_function = function (value) {
         return typeof value === 'function';
     }, // Checks if the value is a function
@@ -23,7 +23,7 @@ var m, // uset to enumerate properties
         };
     }; // Compare if the arguments are equals or not
 
-var array_api = {    
+var array_api = {
 
     // Each method
     // Iterates over the array elements and executes the callback function.
@@ -389,8 +389,10 @@ var array_api = {
     }
 };
 
-for(m in array_api){
-    if ('function' !== typeof Array.prototype[m]) {
-        Array.prototype[m] = array_api[m];
+for (m in array_api) {
+    if(array_api.hasOwnProperty(m)) {
+        if (!is_function(Array.prototype[m])) {
+            Array.prototype[m] = array_api[m];
+        }
     }
 }
