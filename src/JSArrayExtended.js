@@ -98,8 +98,25 @@
       buffer.splice(0, howMany);
       return buffer;
     },
-    first: function () {
-      console.error('#first is not implemented yet');
+    first: function (callback) {
+      var length = this.length,
+        buffer = null,
+        current;
+      if (length === 1) {
+        return this[0];
+      }
+      buffer = null;
+      if (!length) {
+        return buffer;
+      }
+      callback = isFunction(callback) ? callback : functionK;
+      for (var index = 0; index < length; index += 1) {
+        current = this[index];
+        if (callback(current, index)) {
+          return current;
+        }
+      }
+      return buffer;
     },
     last: function () {
       console.error('#last is not implemented yet');

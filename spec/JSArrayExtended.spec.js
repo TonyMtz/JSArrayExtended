@@ -4,11 +4,19 @@ describe('JSArrayExtended', function() {
 
   require('../src/JSArrayExtended')
   var simpleArray,
+    numericArray,
+    objectArray,
     buffer,
     check;
 
   beforeEach(function() {
     simpleArray = ['a', 'b', 'c'];
+    numericArray = [1, 2, 3];
+    objectArray = [
+      { name: 'tony', age: 24 },
+      { name: 'clau', age: 21 },
+      { name: 'pepe', age: 17 }
+    ];
     buffer = '';
     check = false;
   });
@@ -26,22 +34,16 @@ describe('JSArrayExtended', function() {
       });
 
       it('numbers', function() {
-        simpleArray = [1, 2, 3];
-        simpleArray.each(function(x) { buffer += x; });
+        numericArray.each(function(x) { buffer += x; });
         expect(buffer).toEqual('123');
       });
 
       it('objects', function() {
-        simpleArray = [
-          { name: 'tony' },
-          { name: 'clau' },
-          { name: 'pepe' }
-        ];
-        simpleArray.each(function(x) { buffer += x; });
+        objectArray.each(function(x) { buffer += x; });
         expect(buffer).toEqual('[object Object][object Object][object Object]');
 
         buffer = '';
-        simpleArray.each(function(x) { buffer += x.name; });
+        objectArray.each(function(x) { buffer += x.name; });
         expect(buffer).toEqual('tonyclaupepe');
       });
     });
@@ -156,45 +158,39 @@ describe('JSArrayExtended', function() {
       });
 
       it('numbers take 1', function() {
-        simpleArray = [1, 2, 3];
-        check = simpleArray.any(1);
+        check = numericArray.any(1);
         expect(check).toBe(true);
 
-        check = simpleArray.any(2);
+        check = numericArray.any(2);
         expect(check).toBe(true);
 
-        check = simpleArray.any(4);
+        check = numericArray.any(4);
         expect(check).toBe(false);
 
-        check = simpleArray.any(function(x) { return x === 1; });
+        check = numericArray.any(function(x) { return x === 1; });
         expect(check).toBe(true);
 
-        check = simpleArray.any(function(x) { return x === 5; });
+        check = numericArray.any(function(x) { return x === 5; });
         expect(check).toBe(false);
 
-        check = simpleArray.any(function(x) { return x > 2; });
+        check = numericArray.any(function(x) { return x > 2; });
         expect(check).toBe(true);
 
-        check = simpleArray.any(function(x) { return x < 1; });
+        check = numericArray.any(function(x) { return x < 1; });
         expect(check).toBe(false);
       });
 
       it('objects', function() {
-        simpleArray = [
-          { name: 'tony', age: 24 },
-          { name: 'clau', age: 21 },
-          { name: 'pepe', age: 17 }
-        ];
-        check = simpleArray.any(function(x){ return x.name === 'tony'; });
+        check = objectArray.any(function(x){ return x.name === 'tony'; });
         expect(check).toBe(true);
 
-        check = simpleArray.any(function(x){ return x.name === 'john'; });
+        check = objectArray.any(function(x){ return x.name === 'john'; });
         expect(check).toBe(false);
 
-        check = simpleArray.any(function(x){ return x.age < 18; });
+        check = objectArray.any(function(x){ return x.age < 18; });
         expect(check).toBe(true);
 
-        check = simpleArray.any(function(x){ return x.age > 40; });
+        check = objectArray.any(function(x){ return x.age > 40; });
         expect(check).toBe(false);
       });
     });
@@ -235,18 +231,13 @@ describe('JSArrayExtended', function() {
   describe('#select', function() {
     describe('with valid data', function() {
       it('objects', function() {
-        simpleArray = [
-          { name: 'tony', age: 24 },
-          { name: 'clau', age: 21 },
-          { name: 'pepe', age: 17 }
-        ];
-        buffer = simpleArray.select(function(x) { return x.name; });
+        buffer = objectArray.select(function(x) { return x.name; });
         expect(buffer).toContain('tony');
         expect(buffer).toContain('clau');
         expect(buffer).toContain('pepe');
         expect(buffer).not.toContain('age');
 
-        buffer = simpleArray.select(function(x) { return x.age; });
+        buffer = objectArray.select(function(x) { return x.age; });
         expect(buffer).toContain(24);
         expect(buffer).toContain(21);
         expect(buffer).toContain(17);
@@ -283,24 +274,19 @@ describe('JSArrayExtended', function() {
   describe('#take', function() {
     describe('with valid data', function() {
       it('only numbers as arguments', function() {
-        simpleArray = [
-          { name: 'tony', age: 24 },
-          { name: 'clau', age: 21 },
-          { name: 'pepe', age: 17 }
-        ];
-        buffer = simpleArray.take(0);
+        buffer = objectArray.take(0);
         expect(buffer.length).toBe(0);
 
-        buffer = simpleArray.take(1);
+        buffer = objectArray.take(1);
         expect(buffer.length).toBe(1);
 
-        buffer = simpleArray.take(2);
+        buffer = objectArray.take(2);
         expect(buffer.length).toBe(2);
 
-        buffer = simpleArray.take(3);
+        buffer = objectArray.take(3);
         expect(buffer.length).toBe(3);
 
-        buffer = simpleArray.take(4);
+        buffer = objectArray.take(4);
         expect(buffer.length).toBe(3);
       });
 
@@ -312,47 +298,41 @@ describe('JSArrayExtended', function() {
             return 20 >= x.age;
           };
 
-        simpleArray = [
-          { name: 'tony', age: 24 },
-          { name: 'clau', age: 21 },
-          { name: 'pepe', age: 17 }
-        ];
-
-        buffer = simpleArray.take(0, gt20);
+        buffer = objectArray.take(0, gt20);
         expect(buffer.length).toBe(0);
-        buffer = simpleArray.take(0, lt20);
+        buffer = objectArray.take(0, lt20);
         expect(buffer.length).toBe(0);
 
-        buffer = simpleArray.take(1, gt20);
+        buffer = objectArray.take(1, gt20);
         expect(buffer.length).toBe(1);
-        expect(buffer).toContain(simpleArray[0]);
-        buffer = simpleArray.take(1, lt20);
+        expect(buffer).toContain(objectArray[0]);
+        buffer = objectArray.take(1, lt20);
         expect(buffer.length).toBe(1);
-        expect(buffer).toContain(simpleArray[2]);
+        expect(buffer).toContain(objectArray[2]);
 
-        buffer = simpleArray.take(2, gt20);
+        buffer = objectArray.take(2, gt20);
         expect(buffer.length).toBe(2);
-        expect(buffer).toContain(simpleArray[0]);
-        expect(buffer).toContain(simpleArray[1]);
-        buffer = simpleArray.take(2, lt20);
+        expect(buffer).toContain(objectArray[0]);
+        expect(buffer).toContain(objectArray[1]);
+        buffer = objectArray.take(2, lt20);
         expect(buffer.length).toBe(1);
-        expect(buffer).toContain(simpleArray[2]);
+        expect(buffer).toContain(objectArray[2]);
 
-        buffer = simpleArray.take(3, gt20);
+        buffer = objectArray.take(3, gt20);
         expect(buffer.length).toBe(2);
-        expect(buffer).toContain(simpleArray[0]);
-        expect(buffer).toContain(simpleArray[1]);
-        buffer = simpleArray.take(3, lt20);
+        expect(buffer).toContain(objectArray[0]);
+        expect(buffer).toContain(objectArray[1]);
+        buffer = objectArray.take(3, lt20);
         expect(buffer.length).toBe(1);
-        expect(buffer).toContain(simpleArray[2]);
+        expect(buffer).toContain(objectArray[2]);
 
-        buffer = simpleArray.take(4, gt20);
+        buffer = objectArray.take(4, gt20);
         expect(buffer.length).toBe(2);
-        expect(buffer).toContain(simpleArray[0]);
-        expect(buffer).toContain(simpleArray[1]);
-        buffer = simpleArray.take(4, lt20);
+        expect(buffer).toContain(objectArray[0]);
+        expect(buffer).toContain(objectArray[1]);
+        buffer = objectArray.take(4, lt20);
         expect(buffer.length).toBe(1);
-        expect(buffer).toContain(simpleArray[2]);
+        expect(buffer).toContain(objectArray[2]);
       });
     });
 
@@ -368,23 +348,23 @@ describe('JSArrayExtended', function() {
             return null === x.age;
           };
 
-        simpleArray = [
+        var customArray = [
           { name: 'tony', age: 24 },
           { name: 'clau', age: null },
           { name: 'pepe', age: 17 }
         ];
 
-        buffer = simpleArray.take(3, gt20);
+        buffer = customArray.take(3, gt20);
         expect(buffer.length).toBe(1);
-        expect(buffer).toContain(simpleArray[0]);
-        buffer = simpleArray.take(3, lt20);
+        expect(buffer).toContain(customArray[0]);
+        buffer = customArray.take(3, lt20);
         expect(buffer.length).toBe(2);
-        expect(buffer).toContain(simpleArray[1]);
-        expect(buffer).toContain(simpleArray[2]);
+        expect(buffer).toContain(customArray[1]);
+        expect(buffer).toContain(customArray[2]);
 
-        buffer = simpleArray.take(2, isNull);
+        buffer = customArray.take(2, isNull);
         expect(buffer.length).toBe(1);
-        expect(buffer).toContain(simpleArray[1]);
+        expect(buffer).toContain(customArray[1]);
       });
     });
 
@@ -400,57 +380,96 @@ describe('JSArrayExtended', function() {
 
   describe('#skip', function() {
     it('with valid data', function() {
-      simpleArray = [
-        { name: 'tony', age: 24 },
-        { name: 'clau', age: 21 },
-        { name: 'pepe', age: 17 }
-      ];
-      buffer = simpleArray.skip(0);
+      buffer = objectArray.skip(0);
       expect(buffer.length).toBe(3);
 
-      buffer = simpleArray.skip(1);
+      buffer = objectArray.skip(1);
       expect(buffer.length).toBe(2);
 
-      buffer = simpleArray.skip(2);
+      buffer = objectArray.skip(2);
       expect(buffer.length).toBe(1);
 
-      buffer = simpleArray.skip(3);
+      buffer = objectArray.skip(3);
       expect(buffer.length).toBe(0);
 
-      buffer = simpleArray.skip(4);
+      buffer = objectArray.skip(4);
       expect(buffer.length).toBe(0);
     });
 
     it('with invalid data', function() {
-      simpleArray = [
+      var customArray = [
         { name: 'tony', age: 24 },
         null,
         undefined,
         { name: 'clau', age: 21 }
       ];
-      buffer = simpleArray.skip(0);
+      buffer = customArray.skip(0);
       expect(buffer.length).toBe(4);
 
-      buffer = simpleArray.skip(1);
+      buffer = customArray.skip(1);
       expect(buffer.length).toBe(3);
 
-      buffer = simpleArray.skip(2);
+      buffer = customArray.skip(2);
       expect(buffer.length).toBe(2);
 
-      buffer = simpleArray.skip(3);
+      buffer = customArray.skip(3);
       expect(buffer.length).toBe(1);
 
-      buffer = simpleArray.skip(4);
+      buffer = customArray.skip(4);
       expect(buffer.length).toBe(0);
 
-      buffer = simpleArray.skip(5);
+      buffer = customArray.skip(5);
       expect(buffer.length).toBe(0);
 
-      buffer = simpleArray.skip('a');
+      buffer = customArray.skip('a');
       expect(buffer.length).toBe(4);
 
-      buffer = simpleArray.skip(true);
+      buffer = customArray.skip(true);
       expect(buffer.length).toBe(4);
+    });
+  });
+
+  describe('#first', function() {
+    it('with valid data no argument', function() {
+      buffer = simpleArray.first();
+      expect(buffer).toBe('a');
+
+      buffer = numericArray.first();
+      expect(buffer).toBe(1);
+
+      buffer = objectArray.first();
+      expect(buffer).toBe(objectArray[0]);
+      expect(buffer.name).toBe('tony');
+    });
+
+    it('with valid data and argument', function() {
+      buffer = simpleArray.first(function(x) { return x === 'b'; });
+      expect(buffer).toBe('b');
+      buffer = simpleArray.first(function(x) { return x === 'c'; });
+      expect(buffer).toBe('c');
+      buffer = simpleArray.first(function(x) { return x === 'd'; });
+      expect(buffer).toBe(null);
+
+      buffer = numericArray.first(function(x) { return x > 2; });
+      expect(buffer).toBe(3);
+      buffer = numericArray.first(function(x) { return x > 10; });
+      expect(buffer).toBe(null);
+
+      buffer = objectArray.first(function(x) { return x.name === 'clau'; });
+      expect(buffer.name).toBe('clau');
+      expect(buffer).toBe(objectArray[1]);
+      buffer = objectArray.first(function(x) { return x.age >= 18; });
+      expect(buffer.age).toBe(24);
+      expect(buffer).toBe(objectArray[0]);
+      buffer = objectArray.reverse().first(function(x) { return x.age >= 18; });
+      expect(buffer.age).toBe(21);
+      expect(buffer).toBe(objectArray[1]);
+
+      buffer = [].first();
+      expect(buffer).toBe(null);
+
+      buffer = [42].first();
+      expect(buffer).toBe(42);
     });
   });
 });
