@@ -72,7 +72,7 @@
       var length = this.length,
         buffer = [],
         current;
-      howMany = howMany || 0;
+      howMany = parseInt(howMany, 10) || 0;
       if (!length || 1 > howMany) {
         return buffer;
       }
@@ -88,8 +88,15 @@
       }
       return buffer;
     },
-    skip: function () {
-      console.error('#skip is not implemented yet');
+    skip: function (howMany) {
+      var length = this.length,
+        buffer = this.slice();
+      howMany = parseInt(howMany, 10) || 0;
+      if (!length || 1 > howMany) {
+        return buffer;
+      }
+      buffer.splice(0, howMany);
+      return buffer;
     },
     first: function () {
       console.error('#first is not implemented yet');

@@ -397,4 +397,60 @@ describe('JSArrayExtended', function() {
       expect(buffer.length).toEqual(0);
     });
   });
+
+  describe('#skip', function() {
+    it('with valid data', function() {
+      simpleArray = [
+        { name: 'tony', age: 24 },
+        { name: 'clau', age: 21 },
+        { name: 'pepe', age: 17 }
+      ];
+      buffer = simpleArray.skip(0);
+      expect(buffer.length).toBe(3);
+
+      buffer = simpleArray.skip(1);
+      expect(buffer.length).toBe(2);
+
+      buffer = simpleArray.skip(2);
+      expect(buffer.length).toBe(1);
+
+      buffer = simpleArray.skip(3);
+      expect(buffer.length).toBe(0);
+
+      buffer = simpleArray.skip(4);
+      expect(buffer.length).toBe(0);
+    });
+
+    it('with invalid data', function() {
+      simpleArray = [
+        { name: 'tony', age: 24 },
+        null,
+        undefined,
+        { name: 'clau', age: 21 }
+      ];
+      buffer = simpleArray.skip(0);
+      expect(buffer.length).toBe(4);
+
+      buffer = simpleArray.skip(1);
+      expect(buffer.length).toBe(3);
+
+      buffer = simpleArray.skip(2);
+      expect(buffer.length).toBe(2);
+
+      buffer = simpleArray.skip(3);
+      expect(buffer.length).toBe(1);
+
+      buffer = simpleArray.skip(4);
+      expect(buffer.length).toBe(0);
+
+      buffer = simpleArray.skip(5);
+      expect(buffer.length).toBe(0);
+
+      buffer = simpleArray.skip('a');
+      expect(buffer.length).toBe(4);
+
+      buffer = simpleArray.skip(true);
+      expect(buffer.length).toBe(4);
+    });
+  });
 });
