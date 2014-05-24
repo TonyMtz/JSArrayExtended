@@ -12,17 +12,18 @@
 
     functionK = function (value) {
         return value;
-    }; // Default function wich returns the same value
+    }, // Default function wich returns the same value
 
     // substract = function (a, b) {
     //     return a - b;
     // }, // Return the result of the substract
 
-    // simpleCompare = function (a, b) {
-    //     return function (b) {
-    //         return a === b;
-    //     };
-    // }; // Compare if the arguments are equals or not
+    simpleCompare = function (a, b) {
+      /* jshint unused: false */
+      return function (b) {
+        return a === b;
+      };
+    }; // Compare if the arguments are equals or not
 
   var arrayApi = {
     each: function (callback) {
@@ -44,8 +45,17 @@
       });
       return buffer;
     },
-    any: function () {
-      console.error('#any is not implemented yet');
+    any: function (callback) {
+      var length = this.length;
+      if (length) {
+        callback = isFunction(callback) ? callback : simpleCompare(callback);
+        for (var index = 0; index < length; index += 1) {
+          if (callback(this[index], index)) {
+            return true;
+          }
+        }
+      }
+      return false;
     },
     select: function () {
       console.error('#select is not implemented yet');
@@ -119,18 +129,3 @@
     }
   }
 }());
-
-
-var buffer = 0,
-  index = 0;
-
-while(index < 1000) {
-  if (index % 3 === 0) {
-    buffer += index;
-  } else if (index % 5 === 0) {
-    buffer += index;
-  }
-  index += 1;
-}
-
-console.log(buffer);
