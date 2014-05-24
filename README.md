@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/TonyMtz/JSArrayExtended.js.svg)](https://travis-ci.org/TonyMtz/JSArrayExtended.js)
+[![Build Status](https://travis-ci.org/TonyMtz/JSArrayExtended.svg?branch=master)](https://travis-ci.org/TonyMtz/JSArrayExtended)
 
 JSArrayExtended
 ===============
