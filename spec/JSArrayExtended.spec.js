@@ -455,6 +455,7 @@ describe('JSArrayExtended', function() {
       buffer = numericArray.first(function(x) { return x > 10; });
       expect(buffer).toBe(null);
 
+      objectArray.push({ name: 'clau', age: 29 });
       buffer = objectArray.first(function(x) { return x.name === 'clau'; });
       expect(buffer.name).toBe('clau');
       expect(buffer).toBe(objectArray[1]);
@@ -462,14 +463,119 @@ describe('JSArrayExtended', function() {
       expect(buffer.age).toBe(24);
       expect(buffer).toBe(objectArray[0]);
       buffer = objectArray.reverse().first(function(x) { return x.age >= 18; });
-      expect(buffer.age).toBe(21);
-      expect(buffer).toBe(objectArray[1]);
+      expect(buffer.age).toBe(29);
+      expect(buffer).toBe(objectArray[0]);
 
       buffer = [].first();
       expect(buffer).toBe(null);
 
-      buffer = [42].first();
+      buffer = [42, 666].first();
       expect(buffer).toBe(42);
+    });
+  });
+
+  describe('#last', function() {
+    it('with valid data no argument', function() {
+      buffer = simpleArray.last();
+      expect(buffer).toBe('c');
+
+      buffer = numericArray.last();
+      expect(buffer).toBe(3);
+
+      buffer = objectArray.last();
+      expect(buffer).toBe(objectArray[2]);
+      expect(buffer.name).toBe('pepe');
+    });
+
+    it('with valid data and argument', function() {
+      buffer = simpleArray.last(function(x) { return x === 'b'; });
+      expect(buffer).toBe('b');
+      buffer = simpleArray.last(function(x) { return x === 'c'; });
+      expect(buffer).toBe('c');
+      buffer = simpleArray.last(function(x) { return x === 'd'; });
+      expect(buffer).toBe(null);
+
+      buffer = numericArray.last(function(x) { return x > 0; });
+      expect(buffer).toBe(3);
+      buffer = numericArray.reverse().last(function(x) { return x > 0; });
+      expect(buffer).toBe(1);
+      buffer = numericArray.last(function(x) { return x > 2; });
+      expect(buffer).toBe(3);
+      buffer = numericArray.last(function(x) { return x > 10; });
+      expect(buffer).toBe(null);
+
+      objectArray.push({ name: 'clau', age: 29 });
+      buffer = objectArray.last(function(x) { return x.name === 'clau'; });
+      expect(buffer.name).toBe('clau');
+      expect(buffer.age).toBe(29);
+      expect(buffer).toBe(objectArray[3]);
+      buffer = objectArray.last(function(x) { return x.age >= 18; });
+      expect(buffer.age).toBe(29);
+      expect(buffer).toBe(objectArray[3]);
+
+      buffer = objectArray.reverse().last(function(x) { return x.age >= 18; });
+      expect(buffer.age).toBe(24);
+      expect(buffer).toBe(objectArray[3]);
+
+      buffer = [].last();
+      expect(buffer).toBe(null);
+
+      buffer = [42, 666].last();
+      expect(buffer).toBe(666);
+    });
+  });
+
+  describe('#count', function() {
+    describe('with valid data', function() {
+      it('strings', function() {
+        buffer = simpleArray.count();
+        expect(buffer).toBe(3);
+
+        buffer = simpleArray.count(function(x){ return x === 'b'; });
+        expect(buffer).toBe(1);
+
+        buffer = simpleArray.count(function(x){ return x === 'b' || x === 'a'; });
+        expect(buffer).toBe(2);
+      });
+
+      it('numbers', function() {
+        buffer = numericArray.count();
+        expect(buffer).toBe(3);
+
+        buffer = numericArray.count(function(x){ return x === 2; });
+        expect(buffer).toBe(1);
+
+        buffer = numericArray.count(function(x){ return x > 1; });
+        expect(buffer).toBe(2);
+      });
+
+      it('objects', function() {
+        buffer = objectArray.count();
+        expect(buffer).toBe(3);
+
+        buffer = objectArray.count(function(x){ return x.name === 'tony'; });
+        expect(buffer).toBe(1);
+
+        buffer = objectArray.count(function(x){ return x.age > 18; });
+        expect(buffer).toBe(2);
+      });
+    });
+
+    describe('with invalid data', function() {
+      it('a null', function() {
+        buffer = [null].count();
+        expect(buffer).toEqual(1);
+      });
+
+      it('a undefined', function() {
+        buffer = [undefined].count();
+        expect(buffer).toEqual(1);
+      });
+
+      it('with valid data and null take 1', function() {
+        buffer = ['a', 'b', null, 'c'].count();
+        expect(buffer).toEqual(4);
+      });
     });
   });
 });

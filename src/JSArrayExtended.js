@@ -118,14 +118,62 @@
       }
       return buffer;
     },
-    last: function () {
-      console.error('#last is not implemented yet');
+    last: function (callback) {
+      var length = this.length,
+        buffer = null,
+        current;
+      if (length === 1) {
+        return this[0];
+      }
+      buffer = null;
+      if (!length) {
+        return buffer;
+      }
+      callback = isFunction(callback) ? callback : functionK;
+      for (var index = length - 1; index >= 0; index -= 1) {
+        current = this[index];
+        if (callback(current, index)) {
+          return current;
+        }
+      }
+      return buffer;
     },
-    count: function () {
-      console.error('#count is not implemented yet');
+    count: function (callback) {
+      var length = this.length,
+        buffer = 0,
+        current;
+      if (!length) {
+        return buffer;
+      }
+      if (!isFunction(callback)) {
+        return length;
+      }
+      for (var index = 0; index < length; index += 1) {
+        current = this[index];
+        if (callback(current, index)) {
+          buffer += 1;
+        }
+      }
+      return buffer;
     },
-    index: function () {
-      console.error('#index is not implemented yet');
+    index: function (callback) {
+      var length = this.length,
+        buffer = -1,
+        current;
+
+      console.log('#index is not tested yet');
+
+      if (!length) {
+        return buffer;
+      }
+      callback = isFunction(callback) ? callback : simpleCompare(callback);
+      for (var index = 0; index < length; index += 1) {
+        current = this[index];
+        if (callback(current, index)) {
+          return index;
+        }
+      }
+      return buffer;
     },
     pluck: function () {
       console.error('#pluck is not implemented yet');
