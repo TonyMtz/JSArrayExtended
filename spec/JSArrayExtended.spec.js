@@ -231,4 +231,52 @@ describe('JSArrayExtended', function() {
       });
     });
   });
+
+  describe('#select', function() {
+    describe('with valid data', function() {
+      it('objects', function() {
+        simpleArray = [
+          { name: 'tony', age: 24 },
+          { name: 'clau', age: 21 },
+          { name: 'pepe', age: 17 }
+        ];
+        buffer = simpleArray.select(function(x) { return x.name; });
+        expect(buffer).toContain('tony');
+        expect(buffer).toContain('clau');
+        expect(buffer).toContain('pepe');
+        expect(buffer).not.toContain('age');
+
+        buffer = simpleArray.select(function(x) { return x.age; });
+        expect(buffer).toContain(24);
+        expect(buffer).toContain(21);
+        expect(buffer).toContain(17);
+        expect(buffer).not.toContain('tony');
+        expect(buffer).not.toContain(0);
+        expect(buffer).not.toContain(null);
+        expect(buffer).not.toContain(undefined);
+      });
+    });
+
+    describe('with invalid data', function() {
+      it('a null', function() {
+        simpleArray = [
+          { name: 'tony', age: 24 },
+          { name: null, age: 21 },
+          { name: 'pepe', age: 17 }
+        ];
+        buffer = simpleArray.select(function(x) { return x.name; });
+        expect(buffer).toContain('tony');
+        expect(buffer).toContain(null);
+        expect(buffer).toContain('pepe');
+        expect(buffer).not.toContain('null');
+        expect(buffer).not.toContain('age');
+      });
+    });
+
+    it('with empty array', function() {
+      simpleArray = [];
+      buffer = simpleArray.select(function(x) { return x.name; });
+      expect(buffer.length).toEqual(0);
+    });
+  });
 });

@@ -57,8 +57,16 @@
       }
       return false;
     },
-    select: function () {
-      console.error('#select is not implemented yet');
+    select: function (callback) {
+      var length = this.length,
+        buffer = [];
+      callback = isFunction(callback) ? callback : simpleCompare(callback);
+      if (length) {
+        this.each(function(element, index) {
+          buffer.push(callback(element, index));
+        });
+      }
+      return buffer;
     },
     take: function () {
       console.error('#take is not implemented yet');
