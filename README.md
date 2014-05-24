@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/TonyMtz/JSArrayExtended.js.svg)](https://travis-ci.org/TonyMtz/JSArrayExtended.js)
+
 JSArrayExtended
 ===============
 
