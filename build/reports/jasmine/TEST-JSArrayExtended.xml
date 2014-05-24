@@ -1,52 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-<testsuite name="JSArrayExtended" errors="0" tests="0" failures="0" time="0" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended" errors="0" tests="0" failures="0" time="0" timestamp="2014-05-24T19:06:43">
 </testsuite>
-<testsuite name="JSArrayExtended.#each" errors="0" tests="2" failures="0" time="0" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended.#each" errors="0" tests="2" failures="0" time="0" timestamp="2014-05-24T19:06:43">
   <testcase classname="JSArrayExtended.#each" name="with valid data and null" time="0"></testcase>
   <testcase classname="JSArrayExtended.#each" name="with empty array" time="0"></testcase>
 </testsuite>
-<testsuite name="JSArrayExtended.#each.with valid data" errors="0" tests="3" failures="0" time="0.003" timestamp="2014-05-24T17:45:12">
-  <testcase classname="JSArrayExtended.#each.with valid data" name="strings" time="0.002"></testcase>
+<testsuite name="JSArrayExtended.#each.with valid data" errors="0" tests="3" failures="0" time="0.003" timestamp="2014-05-24T19:06:43">
+  <testcase classname="JSArrayExtended.#each.with valid data" name="strings" time="0.003"></testcase>
   <testcase classname="JSArrayExtended.#each.with valid data" name="numbers" time="0"></testcase>
   <testcase classname="JSArrayExtended.#each.with valid data" name="objects" time="0"></testcase>
 </testsuite>
-<testsuite name="JSArrayExtended.#each.with invalid data" errors="0" tests="2" failures="0" time="0.001" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended.#each.with invalid data" errors="0" tests="2" failures="0" time="0" timestamp="2014-05-24T19:06:43">
   <testcase classname="JSArrayExtended.#each.with invalid data" name="a null" time="0"></testcase>
   <testcase classname="JSArrayExtended.#each.with invalid data" name="a undefined" time="0"></testcase>
 </testsuite>
-<testsuite name="JSArrayExtended.#where" errors="0" tests="0" failures="0" time="0" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended.#where" errors="0" tests="0" failures="0" time="0" timestamp="2014-05-24T19:06:43">
 </testsuite>
-<testsuite name="JSArrayExtended.#where.with valid data" errors="0" tests="4" failures="0" time="0" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended.#where.with valid data" errors="0" tests="4" failures="0" time="0.001" timestamp="2014-05-24T19:06:43">
   <testcase classname="JSArrayExtended.#where.with valid data" name="strings" time="0"></testcase>
   <testcase classname="JSArrayExtended.#where.with valid data" name="numbers take 1" time="0"></testcase>
   <testcase classname="JSArrayExtended.#where.with valid data" name="numbers take 2" time="0"></testcase>
-  <testcase classname="JSArrayExtended.#where.with valid data" name="objects" time="0"></testcase>
+  <testcase classname="JSArrayExtended.#where.with valid data" name="objects" time="0.001"></testcase>
 </testsuite>
-<testsuite name="JSArrayExtended.#where.with invalid data" errors="0" tests="3" failures="0" time="0.001" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended.#where.with invalid data" errors="0" tests="3" failures="0" time="0" timestamp="2014-05-24T19:06:43">
   <testcase classname="JSArrayExtended.#where.with invalid data" name="a null" time="0"></testcase>
   <testcase classname="JSArrayExtended.#where.with invalid data" name="a undefined" time="0"></testcase>
-  <testcase classname="JSArrayExtended.#where.with invalid data" name="with valid data and null take 1" time="0.001"></testcase>
+  <testcase classname="JSArrayExtended.#where.with invalid data" name="with valid data and null take 1" time="0"></testcase>
 </testsuite>
-<testsuite name="JSArrayExtended.#any" errors="0" tests="0" failures="0" time="0" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended.#any" errors="0" tests="0" failures="0" time="0" timestamp="2014-05-24T19:06:43">
 </testsuite>
-<testsuite name="JSArrayExtended.#any.with valid data" errors="0" tests="3" failures="0" time="0" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended.#any.with valid data" errors="0" tests="3" failures="0" time="0" timestamp="2014-05-24T19:06:43">
   <testcase classname="JSArrayExtended.#any.with valid data" name="strings" time="0"></testcase>
   <testcase classname="JSArrayExtended.#any.with valid data" name="numbers take 1" time="0"></testcase>
   <testcase classname="JSArrayExtended.#any.with valid data" name="objects" time="0"></testcase>
 </testsuite>
-<testsuite name="JSArrayExtended.#any.with invalid data" errors="0" tests="3" failures="0" time="0" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended.#any.with invalid data" errors="0" tests="3" failures="0" time="0.001" timestamp="2014-05-24T19:06:43">
   <testcase classname="JSArrayExtended.#any.with invalid data" name="a null" time="0"></testcase>
-  <testcase classname="JSArrayExtended.#any.with invalid data" name="a undefined" time="0"></testcase>
+  <testcase classname="JSArrayExtended.#any.with invalid data" name="a undefined" time="0.001"></testcase>
   <testcase classname="JSArrayExtended.#any.with invalid data" name="with valid data and null" time="0"></testcase>
 </testsuite>
-<testsuite name="JSArrayExtended.#select" errors="0" tests="1" failures="0" time="0" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended.#select" errors="0" tests="1" failures="0" time="0" timestamp="2014-05-24T19:06:43">
   <testcase classname="JSArrayExtended.#select" name="with empty array" time="0"></testcase>
 </testsuite>
-<testsuite name="JSArrayExtended.#select.with valid data" errors="0" tests="1" failures="0" time="0" timestamp="2014-05-24T17:45:12">
+<testsuite name="JSArrayExtended.#select.with valid data" errors="0" tests="1" failures="0" time="0" timestamp="2014-05-24T19:06:43">
   <testcase classname="JSArrayExtended.#select.with valid data" name="objects" time="0"></testcase>
 </testsuite>
-<testsuite name="JSArrayExtended.#select.with invalid data" errors="0" tests="1" failures="0" time="0.001" timestamp="2014-05-24T17:45:12">
-  <testcase classname="JSArrayExtended.#select.with invalid data" name="a null" time="0.001"></testcase>
+<testsuite name="JSArrayExtended.#select.with invalid data" errors="0" tests="1" failures="0" time="0" timestamp="2014-05-24T19:06:43">
+  <testcase classname="JSArrayExtended.#select.with invalid data" name="a null" time="0"></testcase>
+</testsuite>
+<testsuite name="JSArrayExtended.#take" errors="0" tests="1" failures="0" time="0" timestamp="2014-05-24T19:06:43">
+  <testcase classname="JSArrayExtended.#take" name="with empty array" time="0"></testcase>
+</testsuite>
+<testsuite name="JSArrayExtended.#take.with valid data" errors="0" tests="2" failures="0" time="0.001" timestamp="2014-05-24T19:06:43">
+  <testcase classname="JSArrayExtended.#take.with valid data" name="only numbers as arguments" time="0"></testcase>
+  <testcase classname="JSArrayExtended.#take.with valid data" name="numbers and function as arguments" time="0.001"></testcase>
+</testsuite>
+<testsuite name="JSArrayExtended.#take.with invalid data" errors="0" tests="1" failures="0" time="0" timestamp="2014-05-24T19:06:43">
+  <testcase classname="JSArrayExtended.#take.with invalid data" name="a null" time="0"></testcase>
 </testsuite>
 </testsuites>

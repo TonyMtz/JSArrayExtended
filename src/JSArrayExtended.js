@@ -68,8 +68,25 @@
       }
       return buffer;
     },
-    take: function () {
-      console.error('#take is not implemented yet');
+    take: function (howMany, callback) {
+      var length = this.length,
+        buffer = [],
+        current;
+      howMany = howMany || 0;
+      if (!length || 1 > howMany) {
+        return buffer;
+      }
+      callback = isFunction(callback) ? callback : functionK;
+      for (var index = 0; index < length && howMany > 0; index += 1) {
+        current = this[index];
+        if (callback(current, index)) {
+          buffer.push(current);
+          if(buffer.length >= howMany) {
+            return buffer;
+          }
+        }
+      }
+      return buffer;
     },
     skip: function () {
       console.error('#skip is not implemented yet');

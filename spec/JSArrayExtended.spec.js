@@ -279,4 +279,122 @@ describe('JSArrayExtended', function() {
       expect(buffer.length).toEqual(0);
     });
   });
+
+  describe('#take', function() {
+    describe('with valid data', function() {
+      it('only numbers as arguments', function() {
+        simpleArray = [
+          { name: 'tony', age: 24 },
+          { name: 'clau', age: 21 },
+          { name: 'pepe', age: 17 }
+        ];
+        buffer = simpleArray.take(0);
+        expect(buffer.length).toBe(0);
+
+        buffer = simpleArray.take(1);
+        expect(buffer.length).toBe(1);
+
+        buffer = simpleArray.take(2);
+        expect(buffer.length).toBe(2);
+
+        buffer = simpleArray.take(3);
+        expect(buffer.length).toBe(3);
+
+        buffer = simpleArray.take(4);
+        expect(buffer.length).toBe(3);
+      });
+
+      it('numbers and function as arguments', function() {
+        var gt20 = function (x) {
+            return 20 <= x.age;
+          },
+          lt20 = function (x) {
+            return 20 >= x.age;
+          };
+
+        simpleArray = [
+          { name: 'tony', age: 24 },
+          { name: 'clau', age: 21 },
+          { name: 'pepe', age: 17 }
+        ];
+
+        buffer = simpleArray.take(0, gt20);
+        expect(buffer.length).toBe(0);
+        buffer = simpleArray.take(0, lt20);
+        expect(buffer.length).toBe(0);
+
+        buffer = simpleArray.take(1, gt20);
+        expect(buffer.length).toBe(1);
+        expect(buffer).toContain(simpleArray[0]);
+        buffer = simpleArray.take(1, lt20);
+        expect(buffer.length).toBe(1);
+        expect(buffer).toContain(simpleArray[2]);
+
+        buffer = simpleArray.take(2, gt20);
+        expect(buffer.length).toBe(2);
+        expect(buffer).toContain(simpleArray[0]);
+        expect(buffer).toContain(simpleArray[1]);
+        buffer = simpleArray.take(2, lt20);
+        expect(buffer.length).toBe(1);
+        expect(buffer).toContain(simpleArray[2]);
+
+        buffer = simpleArray.take(3, gt20);
+        expect(buffer.length).toBe(2);
+        expect(buffer).toContain(simpleArray[0]);
+        expect(buffer).toContain(simpleArray[1]);
+        buffer = simpleArray.take(3, lt20);
+        expect(buffer.length).toBe(1);
+        expect(buffer).toContain(simpleArray[2]);
+
+        buffer = simpleArray.take(4, gt20);
+        expect(buffer.length).toBe(2);
+        expect(buffer).toContain(simpleArray[0]);
+        expect(buffer).toContain(simpleArray[1]);
+        buffer = simpleArray.take(4, lt20);
+        expect(buffer.length).toBe(1);
+        expect(buffer).toContain(simpleArray[2]);
+      });
+    });
+
+    describe('with invalid data', function() {
+      it('a null', function() {
+        var gt20 = function (x) {
+            return 20 < x.age;
+          },
+          lt20 = function (x) {
+            return 20 > x.age;
+          },
+          isNull = function (x) {
+            return null === x.age;
+          };
+
+        simpleArray = [
+          { name: 'tony', age: 24 },
+          { name: 'clau', age: null },
+          { name: 'pepe', age: 17 }
+        ];
+
+        buffer = simpleArray.take(3, gt20);
+        expect(buffer.length).toBe(1);
+        expect(buffer).toContain(simpleArray[0]);
+        buffer = simpleArray.take(3, lt20);
+        expect(buffer.length).toBe(2);
+        expect(buffer).toContain(simpleArray[1]);
+        expect(buffer).toContain(simpleArray[2]);
+
+        buffer = simpleArray.take(2, isNull);
+        expect(buffer.length).toBe(1);
+        expect(buffer).toContain(simpleArray[1]);
+      });
+    });
+
+    it('with empty array', function() {
+      simpleArray = [];
+      buffer = simpleArray.take(0);
+      expect(buffer.length).toEqual(0);
+
+      buffer = simpleArray.take(1);
+      expect(buffer.length).toEqual(0);
+    });
+  });
 });
