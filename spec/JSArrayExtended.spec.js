@@ -618,4 +618,30 @@ describe('JSArrayExtended', function() {
       expect(buffer.length).toBe(0);
     });
   });
+
+  describe('#sum', function() {
+    describe('with valid data', function() {
+      it('numbers', function() {
+        buffer = numericArray.sum();
+        expect(buffer).toBe(6);
+
+        buffer = [1, null, 3, null, 5, 6].sum();
+        expect(buffer).toBe(15);
+
+        buffer = numericArray.sum();
+        expect(buffer).toBe(6);
+      });
+
+      it('objects', function() {
+        buffer = numericArray.sum(function(x){ return x * 2; });
+        expect(buffer).toBe(12);
+
+        buffer = numericArray.sum(function(x){ return x * 3; });
+        expect(buffer).toBe(18);
+
+        buffer = objectArray.sum(function(x){ return x.age; });
+        expect(buffer).toBe(62);
+      });
+    });
+  });
 });

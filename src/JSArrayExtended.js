@@ -187,8 +187,17 @@
       }
       return buffer;
     },
-    sum: function () {
-      console.error('#sum is not implemented yet');
+    sum: function (callback) {
+      var length = this.length,
+        buffer = 0;
+      if (!length) {
+        return buffer;
+      }
+      callback = isFunction(callback) ? callback : functionK;
+      for (var index = 0; index < length; index += 1) {
+        buffer += callback(this[index], index);
+      }
+      return buffer;
     },
     max: function () {
       console.error('#max is not implemented yet');
