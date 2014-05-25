@@ -578,4 +578,44 @@ describe('JSArrayExtended', function() {
       });
     });
   });
+
+  describe('#index', function() {
+    describe('with valid data', function() {
+      it('numbers', function() {
+        buffer = numericArray.index(1);
+        expect(buffer).toBe(0);
+
+        buffer = [9, 4, 6].index(4);
+        expect(buffer).toBe(1);
+
+        buffer = numericArray.index(function(x){ return x === 2; });
+        expect(buffer).toBe(1);
+
+        buffer = numericArray.index(function(x){ return x > 1; });
+        expect(buffer).toBe(1);
+      });
+    });
+  });
+
+  describe('#pluck', function() {
+    it('with valid data and argument', function() {
+      buffer = objectArray.pluck(['name']);
+      expect(buffer.length).toBe(3);
+      expect(buffer).toContain('tony');
+      expect(buffer).toContain('clau');
+      expect(buffer).toContain('pepe');
+
+      buffer = objectArray.pluck(['age']);
+      expect(buffer.length).toBe(3);
+      expect(buffer).toContain(24);
+      expect(buffer).toContain(21);
+      expect(buffer).toContain(17);
+
+      buffer = [].pluck();
+      expect(buffer.length).toBe(0);
+
+      buffer = [42, 666].pluck();
+      expect(buffer.length).toBe(0);
+    });
+  });
 });

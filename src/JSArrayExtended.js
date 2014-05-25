@@ -160,9 +160,6 @@
       var length = this.length,
         buffer = -1,
         current;
-
-      console.log('#index is not tested yet');
-
       if (!length) {
         return buffer;
       }
@@ -175,8 +172,20 @@
       }
       return buffer;
     },
-    pluck: function () {
-      console.error('#pluck is not implemented yet');
+    pluck: function (property) {
+      var length = this.length,
+        buffer = [];
+
+      if (!property) {
+        return buffer;
+      }
+
+      if (length) {
+        for (var index = 0; index < length; index += 1) {
+          buffer.push(this[index][property]);
+        }
+      }
+      return buffer;
     },
     sum: function () {
       console.error('#sum is not implemented yet');
