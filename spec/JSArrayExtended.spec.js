@@ -627,9 +627,6 @@ describe('JSArrayExtended', function() {
 
         buffer = [1, null, 3, null, 5, 6].sum();
         expect(buffer).toBe(15);
-
-        buffer = numericArray.sum();
-        expect(buffer).toBe(6);
       });
 
       it('objects', function() {
@@ -641,6 +638,73 @@ describe('JSArrayExtended', function() {
 
         buffer = objectArray.sum(function(x){ return x.age; });
         expect(buffer).toBe(62);
+      });
+    });
+  });
+
+  describe('#max', function() {
+    describe('with valid data', function() {
+      it('numbers', function() {
+        buffer = numericArray.max();
+        expect(buffer).toBe(3);
+
+        buffer = [1, null, 6, undefined, 7, 4].max();
+        expect(buffer).toBe(7);
+
+        buffer = [null, 3, null, 6, undefined, 7, 4].max();
+        expect(buffer).toBe(7);
+
+        buffer = [1, 3, 6, 6, 7, 4].max();
+        expect(buffer).toBe(7);
+
+        buffer = [-1, -3, -5, -4, -2].max();
+        expect(buffer).toBe(-1);
+
+        buffer = [].max();
+        expect(buffer).toBe(null);
+      });
+
+      it('objects', function() {
+        buffer = objectArray.max(function(a, b) { return a.age - b.age; });
+        expect(buffer.age).toBe(24);
+
+        buffer = objectArray.max(function(a, b){ return a.name.length - b.name.length; });
+        expect(buffer.name).toBe('tony');
+      });
+    });
+  });
+
+  describe('#min', function() {
+    describe('with valid data', function() {
+      it('numbers', function() {
+        buffer = numericArray.min();
+        expect(buffer).toBe(1);
+
+        buffer = [3, null, 6, undefined, 7, 4].min();
+        expect(buffer).toBe(3);
+
+        buffer = [null, 3, null, 6, undefined, 7, 4].min();
+        expect(buffer).toBe(3);
+
+        buffer = [3, 6, 7, 4].min();
+        expect(buffer).toBe(3);
+
+        buffer = [10, 3, 6, 6, 7, 4].min();
+        expect(buffer).toBe(3);
+
+        buffer = [-1, -3, -5, -4, -2].min();
+        expect(buffer).toBe(-5);
+
+        buffer = [].min();
+        expect(buffer).toBe(null);
+      });
+
+      it('objects', function() {
+        buffer = objectArray.min(function(a, b) { return a.age - b.age; });
+        expect(buffer.age).toBe(17);
+
+        buffer = objectArray.min(function(a, b){ return a.name.length - b.name.length; });
+        expect(buffer.name).toBe('tony');
       });
     });
   });

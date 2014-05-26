@@ -14,9 +14,9 @@
         return value;
     }, // Default function wich returns the same value
 
-    // substract = function (a, b) {
-    //     return a - b;
-    // }, // Return the result of the substract
+    substract = function (a, b) {
+        return a - b;
+    }, // Return the result of the substract
 
     simpleCompare = function (a, b) {
       /* jshint unused: false */
@@ -199,11 +199,45 @@
       }
       return buffer;
     },
-    max: function () {
-      console.error('#max is not implemented yet');
+    max: function (callback) {
+      var length = this.length,
+        max;
+      if (!length) {
+        return null;
+      }
+      callback = isFunction(callback) ? callback : substract;
+      max = this.reduce(
+        function (a, b) {
+          if (callback.call(this, a, b) >= 0) {
+            return a;
+          }
+          return b;
+        }
+      );
+      return max;
     },
-    min: function () {
-      console.error('#min is not implemented yet');
+    min: function (callback) {
+      var length = this.length,
+        min;
+      if (!length) {
+        return null;
+      }
+      callback = isFunction(callback) ? callback : substract;
+      min = this.reduce(
+        function (a, b) {
+          if(!a) {
+            return b;
+          }
+          if(!b) {
+            return a;
+          }
+          if (callback.call(this, a, b) <= 0) {
+            return a;
+          }
+          return b;
+        }
+      );
+      return min;
     },
     flatten: function () {
       console.error('#flatten is not implemented yet');
