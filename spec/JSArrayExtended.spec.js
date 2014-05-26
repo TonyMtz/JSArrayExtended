@@ -708,4 +708,24 @@ describe('JSArrayExtended', function() {
       });
     });
   });
+
+  describe('#flatten', function() {
+    describe('with valid data', function() {
+      it('numbers', function() {
+        buffer = numericArray.flatten();
+        expect(buffer).toEqual([1, 2, 3]);
+
+        buffer = [1, 2, [3, [4, [5]]], 6].flatten();
+        expect(buffer).toEqual([ 1, 2, 3, 4, 5, 6 ]);
+
+        buffer = [1, 2, [3, [[null], [5]]], 6].flatten();
+        expect(buffer).toEqual([ 1, 2, 3, null, 5, 6 ]);
+
+        var fn = function () {};
+
+        buffer = [1, undefined, 2, [3, [[null], [5]]], [fn, [[fn]]]].flatten();
+        expect(buffer).toEqual([ 1, undefined, 2, 3, null, 5, fn, fn ]);
+      });
+    });
+  });
 });

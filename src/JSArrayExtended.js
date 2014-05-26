@@ -6,9 +6,9 @@
         return typeof value === 'function';
     }, // Checks if the value is a function
 
-    // isArray = function (value) {
-    //     return Object.prototype.toString.apply(value) === '[object Array]';
-    // }, // Checks if the value is an array
+    isArray = function (value) {
+        return Object.prototype.toString.apply(value) === '[object Array]';
+    }, // Checks if the value is an array
 
     functionK = function (value) {
         return value;
@@ -240,7 +240,14 @@
       return min;
     },
     flatten: function () {
-      console.error('#flatten is not implemented yet');
+      var buffer = [];
+      this.each(function (x) {
+        if (isArray(x)) {
+          x = x.flatten();
+        }
+        buffer = buffer.concat(x);
+      });
+      return buffer;
     },
     map: function (callback) {
       console.log('#map not tested yet');
@@ -257,14 +264,6 @@
         if (func(i)) {
           result.push(i);
         }
-      });
-      return result;
-    },
-    reduce: function (func, start) {
-      console.log('#reduce not tested yet');
-      var result = start;
-      this.each(function (i) {
-        result = func(i, result);
       });
       return result;
     }
