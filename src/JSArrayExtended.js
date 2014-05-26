@@ -31,7 +31,7 @@
       if (length) {
         callback = isFunction(callback) ? callback : functionK;
         for (var index = 0; index < length; index += 1) {
-          callback(this[index], index);
+          callback.call(this, this[index], index);
         }
       }
       return this;
@@ -39,7 +39,7 @@
     where: function (callback) {
       var buffer = [];
       this.each(function (element, index) {
-        if (callback(element, index)) {
+        if (callback.call(this, element, index)) {
           buffer.push(element);
         }
       });
@@ -50,7 +50,7 @@
       if (length) {
         callback = isFunction(callback) ? callback : simpleCompare(callback);
         for (var index = 0; index < length; index += 1) {
-          if (callback(this[index], index)) {
+          if (callback.call(this, this[index], index)) {
             return true;
           }
         }
@@ -63,7 +63,7 @@
       callback = isFunction(callback) ? callback : simpleCompare(callback);
       if (length) {
         this.each(function(element, index) {
-          buffer.push(callback(element, index));
+          buffer.push(callback.call(this, element, index));
         });
       }
       return buffer;
@@ -79,7 +79,7 @@
       callback = isFunction(callback) ? callback : functionK;
       for (var index = 0; index < length && howMany > 0; index += 1) {
         current = this[index];
-        if (callback(current, index)) {
+        if (callback.call(this, current, index)) {
           buffer.push(current);
           if(buffer.length >= howMany) {
             return buffer;
@@ -112,7 +112,7 @@
       callback = isFunction(callback) ? callback : functionK;
       for (var index = 0; index < length; index += 1) {
         current = this[index];
-        if (callback(current, index)) {
+        if (callback.call(this, current, index)) {
           return current;
         }
       }
@@ -132,7 +132,7 @@
       callback = isFunction(callback) ? callback : functionK;
       for (var index = length - 1; index >= 0; index -= 1) {
         current = this[index];
-        if (callback(current, index)) {
+        if (callback.call(this, current, index)) {
           return current;
         }
       }
@@ -150,7 +150,7 @@
       }
       for (var index = 0; index < length; index += 1) {
         current = this[index];
-        if (callback(current, index)) {
+        if (callback.call(this, current, index)) {
           buffer += 1;
         }
       }
@@ -166,7 +166,7 @@
       callback = isFunction(callback) ? callback : simpleCompare(callback);
       for (var index = 0; index < length; index += 1) {
         current = this[index];
-        if (callback(current, index)) {
+        if (callback.call(this, current, index)) {
           return index;
         }
       }
@@ -195,7 +195,7 @@
       }
       callback = isFunction(callback) ? callback : functionK;
       for (var index = 0; index < length; index += 1) {
-        buffer += callback(this[index], index);
+        buffer += callback.call(this, this[index], index);
       }
       return buffer;
     },
