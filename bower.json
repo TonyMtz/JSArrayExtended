@@ -1,0 +1,22 @@
+{
+  "name": "o-dot",
+  "version": "0.1.1",
+  "homepage": "https://github.com/TonyMtz/o-dot",
+  "authors": [
+    "TonyMtz <atony.mtz@gmail.com>"
+  ],
+  "description": "Some extra functions for collections.",
+  "main": "src/o-dot.js",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
