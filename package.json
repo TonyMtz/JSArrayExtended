@@ -1,6 +1,6 @@
 {
   "name": "o-dot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/o.min.js",
   "description": "Some extra functions for collections.",
   "repository": {
