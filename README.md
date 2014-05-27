@@ -37,14 +37,13 @@ Save the file [JSArrayExtended.min.js](https://raw.githubusercontent.com/TonyMtz
 If HTML page, you cant import it with something like:
 
 ```
-<
-script src="./path_to_file/JSArrayExtended.js"></script>
+<script src="./path_to_file/o.js"></script>
 ```
 
 Else, in Nodejs you can import it with this:
 
 ```
-require('./path_to_file/JSArrayExtended');
+require('./path_to_file/o');
 ```
 Easy, right?
 

@@ -1,8 +1,8 @@
 'use strict';
 
-describe('JSArrayExtended', function() {
+describe('o-dot', function() {
 
-  var o = require('../src/JSArrayExtended'),
+  var o = require('../src/o-dot'),
     simpleArray,
     numericArray,
     objectArray,

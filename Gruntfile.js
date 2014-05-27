@@ -3,11 +3,11 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
       options: {
-        banner: '/*! JSArrayExtended :D */\n'
+        banner: '/*! o-dot */\n'
       },
       dist: {
         files: {
-          'dist/JSArrayExtended.min.js': ['src/JSArrayExtended.js']
+          'dist/o-dot.min.js': ['src/o-dot.js']
         }
       }
     },

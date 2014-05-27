@@ -1,6 +1,16 @@
 {
-  "name": "your-sweet-unit-test",
-  "version": "0.0.0",
+  "name": "o-dot",
+  "version": "0.1.0",
+  "main": "dist/o.min.js",
+  "description": "Some extra functions for collections.",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:TonyMtz/o-dot.git"
+  },
+  "keywords": [],
+  "author": "TonyMtz",
+  "license": "MIT",
+  "readmeFilename": "README.md",
   "dependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-watch": "~0.5.3",
